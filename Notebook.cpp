@@ -6,11 +6,12 @@ using ariel::Direction;
 using namespace std;  
 using namespace ariel;
 
-void Notebook::write(int page, int row, int col, Direction way, string s_write ){
+void Notebook::write(int page, int row, int col, Direction way,const string &s_write ){
     
 }
 
-string Notebook::read(int page, int row, int col, Direction way, int lentgh){
+string Notebook::read(int page, int row, int col, Direction way, int lentgh)const{
+    cout<<this->line_len<<endl;
     return "";
 }
 

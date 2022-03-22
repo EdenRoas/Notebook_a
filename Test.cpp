@@ -21,20 +21,23 @@ TEST_CASE("Good Input"){
     Notebook notebook;
     notebook.write(0,0,0,Direction::Vertical,"Hello");
     CHECK(notebook.read(0,0,0,Direction::Vertical, 5) == "Hello");
+    notebook.write(1,0,0,Direction::Vertical,"good");
+    CHECK(notebook.read(1,0,0,Direction::Vertical, 4) == "good");
     notebook.write(0,0,6,Direction::Vertical,"my name is");
     CHECK(notebook.read(0,0,6,Direction::Vertical, 10) == "my name is");
     notebook.write(0,0,17,Direction::Vertical,"Eden");
     CHECK(notebook.read(0,0,17,Direction::Vertical, 4) == "Eden");
     CHECK(notebook.read(0,0,17,Direction::Vertical, 6) == "Eden__");
-    notebook.erase(0,0,17, Direction::Horizontal,3);
+    notebook.erase(0,0,17, Direction::Vertical,3);
     CHECK(notebook.read(0,0,17,Direction::Vertical, 6) == "~~~n__");
-    notebook.erase(0,0,0, Direction::Horizontal,4);
+    notebook.erase(0,0,0, Direction::Vertical,4);
     CHECK(notebook.read(0,0,0,Direction::Vertical, 5) == "~~~~o");
 }
 TEST_CASE("Bad Input"){
     Notebook notebook;
     CHECK_THROWS(notebook.write(10,80,101,Direction::Vertical, "this assignment"));//size of line limit=100
-    CHECK_THROWS(notebook.write(72,8,81,Direction::Horizontal, "my"));//
+    notebook.write(72,8,81,Direction::Horizontal, "my");
+    CHECK_THROWS(notebook.write(72,8,81,Direction::Horizontal, "my\n"));//
     CHECK_THROWS(notebook.write(72,8,81,Direction::Horizontal, "name"));//we already write here
     CHECK_THROWS(notebook.write(72,8,81,Direction::Vertical, "is"));//we already write here
     CHECK_THROWS(notebook.write(34,15,100,Direction::Horizontal, "HELLO"));//limit col is 100
@@ -44,10 +47,10 @@ TEST_CASE("Bad Input"){
     CHECK_THROWS(notebook.read(-6,-20,100,Direction::Vertical,-5));
     CHECK_THROWS(notebook.read(64,15,118,Direction::Horizontal,3));
     CHECK_THROWS(notebook.read(4,5,100,Direction::Horizontal,118));
+    CHECK_THROWS(notebook.read(4,5,99,Direction::Horizontal,3));
     CHECK_THROWS(notebook.read(3,5,-7,Direction::Horizontal,105));
     CHECK_THROWS(notebook.erase(32,7,100,Direction::Vertical, -4));
     CHECK_THROWS(notebook.erase(78,7,100,Direction::Horizontal, 200));
-
 }
 
  
